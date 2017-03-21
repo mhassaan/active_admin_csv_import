@@ -18,7 +18,7 @@ module ActiveAdminCsvImport
       # Returns an example CSV based on the columns expected for import.
       collection_action :example_csv do
         csv_column_names = CSV.generate do |csv|
-          csv << columns.map(&:to_s).map(&:humanize)
+          csv << columns.map(&:to_s)
         end
         send_data(csv_column_names,
                   type: 'text/csv; charset=utf-8; header=present',
