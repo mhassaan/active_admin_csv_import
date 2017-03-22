@@ -31,7 +31,7 @@ module ActiveAdminCsvImport
       collection_action :import_csv do
         @columns           = columns
         @required_columns  = required_columns
-
+        @necessary_column  = ["email","first_name","last_name","password","birthday","city","st","zip","address"]
         @post_path  = options[:path].try(:call)
         @post_path ||= collection_path + '/import_rows'
 
