@@ -5,6 +5,6 @@
 </h3>
 <ul>
   <li><%= t('.file_type', default: "Save a CSV as 'Windows Comma Separated' from Excel if you're on Mac, or 'CSV' otherwise.") %></li>
-  <li><%= t('.must_have_headings', columns: @required_columns.map(&:to_s).map(&:humanize).to_sentence, default: "Your CSV should have the following column headings: %{columns}. The order doesn't matter.") %></li>
+  <li><%= t('.must_have_headings', columns: @necessary_column.map(&:to_s), default: "Download the template by clicking the link below and dont change the format of the header in the template. Or if you you intend to create your own file then your CSV should have the following column headings in the following format: %{columns}. The order doesn't matter.") %></li>
   <li><%= link_to(t('.example_link', default: "Download an example"), url_for(:controller => controller_name, :action => 'example_csv')) %></li>
 </ul>
