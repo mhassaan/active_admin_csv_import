@@ -113,7 +113,9 @@ my.Dataset = Backbone.Model.extend({
         // cannot use trim as not supported by IE7
         //var fieldId = field.replace(/^\s+|\s+$/g, '');
         console.log(field);
-        var fieldId = field.trim();
+        if(field!=null){
+          var fieldId = field.trim();
+        }
         if (fieldId === '') {
           fieldId = '_noname_';
           field = fieldId;
