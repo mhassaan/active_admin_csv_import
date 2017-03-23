@@ -85,7 +85,7 @@ my.Dataset = Backbone.Model.extend({
   },
 
   // ### _normalizeRecordsAndFields
-  // 
+  //
   // Get a proper set of fields and records from incoming set of fields and records either of which may be null or arrays or objects
   //
   // e.g. fields = ['a', 'b', 'c'] and records = [ [1,2,3] ] =>
@@ -102,34 +102,40 @@ my.Dataset = Backbone.Model.extend({
           return {id: key};
         });
       }
-    } 
+    }
 
     // fields is an array of strings (i.e. list of field headings/ids)
     if (fields && fields.length > 0 && typeof fields[0] === 'string') {
       // Rename duplicate fieldIds as each field name needs to be
       // unique.
       var seen = {};
-      fields = _.map(fields, function(field, index) {
-        
-        console.log(field + ' ' + index);
-        // cannot use trim as not supported by IE7
-        var fieldId = field.replace(/^\s+|\s+$/g, '');
-        
-        if (fieldId === '') {
-          fieldId = '_noname_';
-          field = fieldId;
-        }
-        while (fieldId in seen) {
-          seen[field] += 1;
-          fieldId = field + seen[field];
-        }
-        if (!(field in seen)) {
-          seen[field] = 0;
-        }
-        // TODO: decide whether to keep original name as label ...
-        // return { id: fieldId, label: field || fieldId }
-        return { id: fieldId };
-      });
+      try{
+        fields = _.map(fields, function(field, index) {
+
+          console.log(field + ' ' + index);
+          // cannot use trim as not supported by IE7
+          var fieldId = field.replace(/^\s+|\s+$/g, '');
+
+          if (fieldId === '') {
+            fieldId = '_noname_';
+            field = fieldId;
+          }
+          while (fieldId in seen) {
+            seen[field] += 1;
+            fieldId = field + seen[field];
+          }
+          if (!(field in seen)) {
+            seen[field] = 0;
+          }
+          // TODO: decide whether to keep original name as label ...
+          // return { id: fieldId, label: field || fieldId }
+          return { id: fieldId };
+        });
+      }
+      catch(err){
+        console.log(err.message);
+      }
+
     }
     // records is provided as arrays so need to zip together with fields
     // NB: this requires you to have fields to match arrays
@@ -234,7 +240,7 @@ my.Dataset = Backbone.Model.extend({
   // ### getFieldsSummary
   //
   // Get a summary for each field in the form of a `Facet`.
-  // 
+  //
   // @return null as this is async function. Provides deferred/promise interface.
   getFieldsSummary: function() {
     var self = this;
@@ -298,7 +304,7 @@ my.Dataset = Backbone.Model.extend({
 //
 // Restore a Dataset instance from a serialized state. Serialized state for a
 // Dataset is an Object like:
-// 
+//
 // <pre>
 // {
 //   backend: {backend type - i.e. value of dataset.backend.__type__}
@@ -325,7 +331,7 @@ my.Dataset.restore = function(state) {
 };
 
 // ## <a id="record">A Record</a>
-// 
+//
 // A single record (or row) in the dataset
 my.Record = Backbone.Model.extend({
   constructor: function Record() {
@@ -333,7 +339,7 @@ my.Record = Backbone.Model.extend({
   },
 
   // ### initialize
-  // 
+  //
   // Create a Record
   //
   // You usually will not do this directly but will have records created by
@@ -374,7 +380,7 @@ my.Record = Backbone.Model.extend({
   summary: function(record) {
     var self = this;
     var html = '<div class="recline-record-summary">';
-    this.fields.each(function(field) { 
+    this.fields.each(function(field) {
       if (field.id != 'id') {
         html += '<div class="' + field.id + '"><strong>' + field.get('label') + '</strong>: ' + self.getFieldValue(field) + '</div>';
       }
@@ -444,7 +450,7 @@ my.Field = Backbone.Model.extend({
       return JSON.stringify(val);
     },
     'float': function(val, field, doc) {
-      var format = field.get('format'); 
+      var format = field.get('format');
       if (format === 'percentage') {
         return val + '%';
       }
@@ -509,7 +515,7 @@ my.Query = Backbone.Model.extend({
         lat: 0
       }
     }
-  },  
+  },
   // ### addFilter
   //
   // Add a new filter (appended to the list of filters)
@@ -607,4 +613,3 @@ Backbone.sync = function(method, model, options) {
 };
 
 }(jQuery, this.recline.Model));
-
