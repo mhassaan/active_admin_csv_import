@@ -1,4 +1,6 @@
 // # Recline Backbone Models
+try{
+
 this.recline = this.recline || {};
 this.recline.Model = this.recline.Model || {};
 
@@ -109,33 +111,28 @@ my.Dataset = Backbone.Model.extend({
       // Rename duplicate fieldIds as each field name needs to be
       // unique.
       var seen = {};
-      try{
-        fields = _.map(fields, function(field, index) {
-
-          console.log(field + ' ' + index);
-          // cannot use trim as not supported by IE7
-          var fieldId = field.replace(/^\s+|\s+$/g, '');
-
-          if (fieldId === '') {
-            fieldId = '_noname_';
-            field = fieldId;
-          }
-          while (fieldId in seen) {
-            seen[field] += 1;
-            fieldId = field + seen[field];
-          }
-          if (!(field in seen)) {
-            seen[field] = 0;
-          }
-          // TODO: decide whether to keep original name as label ...
-          // return { id: fieldId, label: field || fieldId }
-          return { id: fieldId };
-        });
-      }
-      catch(err){
-        console.log(err.message);
-      }
-
+      fields = _.map(fields, function(field, index) {
+        // cannot use trim as not supported by IE7
+        //var fieldId = field.replace(/^\s+|\s+$/g, '');
+        console.log(field);
+        if(field!=null){
+          var fieldId = field.trim();
+        }
+        if (fieldId === '') {
+          fieldId = '_noname_';
+          field = fieldId;
+        }
+        while (fieldId in seen) {
+          seen[field] += 1;
+          fieldId = field + seen[field];
+        }
+        if (!(field in seen)) {
+          seen[field] = 0;
+        }
+        // TODO: decide whether to keep original name as label ...
+        // return { id: fieldId, label: field || fieldId }
+        return { id: fieldId };
+      });
     }
     // records is provided as arrays so need to zip together with fields
     // NB: this requires you to have fields to match arrays
@@ -613,3 +610,7 @@ Backbone.sync = function(method, model, options) {
 };
 
 }(jQuery, this.recline.Model));
+}
+catch(err){
+  console.log(err.message);
+}
