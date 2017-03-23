@@ -112,12 +112,11 @@ my.Dataset = Backbone.Model.extend({
       // unique.
       var seen = {};
       fields = _.map(fields, function(field, index) {
-        // cannot use trim as not supported by IE7
-        //var fieldId = field.replace(/^\s+|\s+$/g, '');
+        //cannot use trim as not supported by IE7
         console.log(field);
-        if(field!=null){
-          var fieldId = field.trim();
-        }
+        var fieldId = field.replace(/^\s+|\s+$/g, '');
+
+        
         if (fieldId === '') {
           fieldId = '_noname_';
           field = fieldId;
