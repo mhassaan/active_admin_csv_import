@@ -41,8 +41,10 @@ $(document).ready(function() {
       backend: 'csv'
     });
 
-    dataset.fetch().done(function(data) {
+    console.log("Recline Modal Dataset Executed");
 
+    dataset.fetch().done(function(data) {
+      console.log("Data fetch Done!");
       if (!data.recordCount) {
         alert("No records found. Please save as 'Windows Comma Separated' from Excel (2nd CSV option).");
         clearFileInput();
@@ -73,7 +75,7 @@ $(document).ready(function() {
         alert("The following columns are missing: " + _.toSentence(missing_columns_humanized) + ". Please check your column names.");
       } else {
         // Import!
-
+        console.log("Columns Not Missing!");
         var total = data.recordCount;
         var loaded = 0;
         var succeeded = 0;
@@ -88,7 +90,7 @@ $(document).ready(function() {
         var rowIndex = 0;
 
         var postRows = function(dataset, index) {
-
+          console.log("Post Rows Started!");
           // Query the data set for the next batch of rows.
           dataset.query({
             size: 100,
